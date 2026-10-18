@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#071426">
+  <meta name="description" content="T1D Buddy is a bilingual English and Tamil Type 1 diabetes learning companion.">
+  <title>T1D Buddy | Diabetes Companion</title>
+
+  <style>
+    :root {
+      --bg: #071426;
+      --card: #10233b;
+      --text: #f1f7ff;
+      --muted: #b7c7dc;
+      --cyan: #00e5ff;
+      --green: #00ffc6;
+      --border: #263f5d;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at top, #123451, var(--bg) 60%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      padding: 22px 16px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      width: 76px;
+      height: 76px;
+      margin: 0 auto 10px;
+      display: grid;
+      place-items: center;
+      border-radius: 24px;
+      background: linear-gradient(135deg, var(--cyan), var(--green));
+      color: #071426;
+      font-size: 43px;
+      font-weight: bold;
+      box-shadow: 0 0 30px #00e5ff44;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--cyan);
+      font-size: clamp(28px, 5vw, 42px);
+    }
+
+    header p { color: var(--muted); }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 14px;
+      position: sticky;
+      top: 0;
+      background: #071426ee;
+      backdrop-filter: blur(12px);
+      z-index: 10;
+    }
+
+    button, .button {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 11px 15px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    button:hover, .button:hover {
+      border-color: var(--cyan);
+    }
+
+    .primary {
+      background: linear-gradient(135deg, var(--cyan), var(--green));
+      color: #071426;
+      border: none;
+    }
+
+    main {
+      width: min(1100px, 92%);
+      margin: 28px auto;
+    }
+
+    section { margin: 35px 0; scroll-margin-top: 90px; }
+
+    .hero {
+      text-align: center;
+      padding: 35px 18px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: linear-gradient(135deg, #123451, #0b1c30);
+    }
+
+    .hero h2 { font-size: clamp(26px, 5vw, 40px); }
+
+    .hero p {
+      max-width: 650px;
+      margin: 12px auto 22px;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      min-width: 0;
+    }
+
+    .card h3 { color: var(--cyan); margin-top: 0; }
+
+    .emoji { font-size: 30px; }
+
+    label {
+      display: block;
+      margin: 12px 0 5px;
+      color: var(--muted);
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #071426;
+      color: var(--text);
+      font: inherit;
+    }
+
+    textarea { resize: vertical; }
+
+    .result {
+      margin-top: 15px;
+      padding: 14px;
+      border-radius: 12px;
+      background: #071426;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .muted { color: var(--muted); }
+
+    .checklist label {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 12px 0;
+    }
+
+    .checklist input { width: auto; margin-top: 6px; }
+
+    .lesson {
+      padding: 13px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .lesson:last-child { border-bottom: none; }
+
+    footer {
+      text-align: center;
+      padding: 28px 16px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .warning {
+      border-left: 4px solid #ffc857;
+      padding: 12px;
+      background: #ffc85712;
+      border-radius: 8px;
+    }
+
+    [hidden] { display: none !important; }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo" aria-hidden="true">✚</div>
+    <h1>T1D Buddy</h1>
+    <p data-en="Learn • Track • Prepare • Thrive" data-ta="கற்றுக்கொள் • பதிவு செய் • தயாராக இரு • நம்பிக்கையுடன் வாழ்">
+      Learn • Track • Prepare • Thrive
+    </p>
+  </header>
+
+  <nav aria-label="Main navigation">
+    <button onclick="setLanguage('en')">English</button>
+    <button onclick="setLanguage('ta')">தமிழ்</button>
+    <button onclick="document.body.classList.toggle('large-text')" data-en="Text size" data-ta="எழுத்து அளவு">Text size</button>
+    <button onclick="toggleTheme()" data-en="Change theme" data-ta="தீம் மாற்று">Change theme</button>
+  </nav>
+
+  <style>
+    body.light {
+      --bg: #edf6ff;
+      --card: #ffffff;
+      --text: #13253b;
+      --muted: #52667d;
+      --border: #cad9e8;
+    }
+    body.light nav { background: #edf6ffee; }
+    body.light input,
+    body.light select,
+    body.light textarea,
+    body.light .result { background: #f4f8fc; }
+    body.large-text { font-size: 19px; }
+  </style>
+
+  <main>
+    <section class="hero" id="home">
+      <h2 data-en="Your journey. Your strength." data-ta="உன் பயணம். உன் வலிமை.">Your journey. Your strength.</h2>
+      <p data-en="A friendly bilingual companion to help you learn about Type 1 diabetes, organize daily information, and prepare for everyday life."
+         data-ta="வகை 1 நீரிழிவு பற்றி கற்றுக்கொள்ளவும், தினசரி தகவல்களை ஒழுங்குபடுத்தவும், அன்றாட வாழ்க்கைக்குத் தயாராகவும் உதவும் இருமொழித் துணை.">
+        A friendly bilingual companion to help you learn about Type 1 diabetes, organize daily information, and prepare for everyday life.
+      </p>
+      <a href="#learn" class="button primary" data-en="Start learning" data-ta="கற்றலைத் தொடங்கு">Start learning</a>
+      <a href="#tracker" class="button" data-en="Daily tracker" data-ta="தினசரி பதிவு">Daily tracker</a>
+    </section>
+
+    <section id="learn">
+      <h2 data-en="📚 Learn about T1D" data-ta="📚 வகை 1 நீரிழிவு பற்றி அறிக">📚 Learn about T1D</h2>
+      <div class="grid">
+        <article class="card">
+          <div class="emoji">🧬</div>
+          <h3 data-en="What is Type 1 diabetes?" data-ta="வகை 1 நீரிழிவு என்றால் என்ன?">What is Type 1 diabetes?</h3>
+          <p data-en="Type 1 diabetes is an autoimmune condition in which the body makes little or no insulin. Insulin treatment is essential."
+             data-ta="வகை 1 நீரிழிவு என்பது உடலின் நோய் எதிர்ப்பு அமைப்பு இன்சுலின் உருவாக்கும் செல்களைப் பாதிக்கும் நிலை. இன்சுலின் சிகிச்சை அவசியம்.">
+            Type 1 diabetes is an autoimmune condition in which the body makes little or no insulin. Insulin treatment is essential.
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="emoji">🩸</div>
+          <h3 data-en="Glucose awareness" data-ta="குளுக்கோஸ் விழிப்புணர்வு">Glucose awareness</h3>
+          <p data-en="Glucose readings can change with food, activity, illness, stress, and insulin. Follow your own care plan."
+             data-ta="உணவு, உடற்பயிற்சி, நோய், மன அழுத்தம் மற்றும் இன்சுலின் காரணமாக குளுக்கோஸ் அளவு மாறலாம். உங்களுக்கான சிகிச்சைத் திட்டத்தைப் பின்பற்றவும்.">
+            Glucose readings can change with food, activity, illness, stress, and insulin. Follow your own care plan.
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="emoji">💉</div>
+          <h3 data-en="Insulin safety" data-ta="இன்சுலின் பாதுகாப்பு">Insulin safety</h3>
+          <p data-en="Use insulin only as prescribed. Follow the product's storage instructions and ask your healthcare team if uncertain."
+             data-ta="மருத்துவர் பரிந்துரைத்தபடி மட்டுமே இன்சுலின் பயன்படுத்தவும். அதன் சேமிப்பு வழிமுறைகளைப் பின்பற்றவும். சந்தேகம் இருந்தால் மருத்துவக் குழுவிடம் கேளுங்கள்.">
+            Use insulin only as prescribed. Follow the product's storage instructions and ask your healthcare team if uncertain.
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="emoji">💙</div>
+          <h3 data-en="You are not alone" data-ta="நீ தனியாக இல்லை">You are not alone</h3>
+          <p data-en="T1D does not define your abilities or dreams. Support from family, school, and healthcare professionals matters."
+             data-ta="வகை 1 நீரிழிவு உன் திறமைகளையோ கனவுகளையோ நிர்ணயிக்காது. குடும்பம், பள்ளி மற்றும் மருத்துவ நிபுணர்களின் ஆதரவு முக்கியம்.">
+            T1D does not define your abilities or dreams. Support from family, school, and healthcare professionals matters.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="tracker">
+      <h2 data-en="📝 Daily glucose & insulin record" data-ta="📝 தினசரி குளுக்கோஸ் மற்றும் இன்சுலின் பதிவு">📝 Daily glucose & insulin record</h2>
+      <div class="card">
+        <p class="muted" data-en="This form creates a report on this device. It does not prescribe doses or automatically save your readings."
+           data-ta="இந்தப் படிவம் இந்தச் சாதனத்தில் ஒரு அறிக்கையை உருவாக்கும். இது இன்சுலின் அளவைப் பரிந்துரைக்காது; பதிவுகளையும் தானாகச் சேமிக்காது.">
+          This form creates a report on this device. It does not prescribe doses or automatically save your readings.
+        </p>
+
+        <label for="recordDate" data-en="Date" data-ta="தேதி">Date</label>
+        <input type="date" id="recordDate">
+
+        <label for="glucose" data-en="Glucose reading (your meter's units)" data-ta="குளுக்கோஸ் அளவு (மீட்டரின் அலகு)">Glucose reading (your meter's units)</label>
+        <input id="glucose" type="number" min="0" step="any" placeholder="e.g. 120">
+
+        <label for="unit" data-en="Glucose unit" data-ta="குளுக்கோஸ் அலகு">Glucose unit</label>
+        <select id="unit">
+          <option value="mg/dL">mg/dL</option>
+          <option value="mmol/L">mmol/L</option>
+        </select>
+
+        <label for="time" data-en="Time / meal context" data-ta="நேரம் / உணவுடன் தொடர்பு">Time / meal context</label>
+        <select id="time">
+          <option value="Morning">Morning</option>
+          <option value="Before lunch">Before lunch</option>
+          <option value="After lunch">After lunch</option>
+          <option value="Evening">Evening</option>
+          <option value="Before sleep">Before sleep</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <label for="insulin" data-en="Insulin information (optional)" data-ta="இன்சுலின் தகவல் (விருப்பம்)">Insulin information (optional)</label>
+        <input id="insulin" type="text" placeholder="Enter prescribed dose taken, if desired">
+
+        <label for="notes" data-en="Notes or symptoms" data-ta="குறிப்புகள் அல்லது அறிகுறிகள்">Notes or symptoms</label>
+        <textarea id="notes" rows="3" placeholder="Optional"></textarea>
+
+        <br><br>
+        <button class="primary" onclick="addRecord()" data-en="Add to report" data-ta="அறிக்கையில் சேர்">Add to report</button>
+        <button onclick="clearRecords()" data-en="Clear records" data-ta="பதிவுகளை அழி">Clear records</button>
+        <button onclick="copyReport()" data-en="Copy report" data-ta="அறிக்கையை நகலெடு">Copy report</button>
+
+        <div class="result" id="report" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="travel">
+      <h2 data-en="🧳 Travel checklist" data-ta="🧳 பயணச் சரிபார்ப்புப் பட்டியல்">🧳 Travel checklist</h2>
+      <div class="card checklist">
+        <label><input type="checkbox"> <span data-en="Pack insulin and supplies according to your care plan." data-ta="உங்கள் சிகிச்சைத் திட்டப்படி இன்சுலின் மற்றும் தேவையான பொருட்களை எடுத்துச் செல்லவும்.">Pack insulin and supplies according to your care plan.</span></label>
+        <label><input type="checkbox"> <span data-en="Carry glucose monitoring equipment and spare supplies." data-ta="குளுக்கோஸ் பரிசோதனைச் சாதனத்தையும் கூடுதல் பொருட்களையும் எடுத்துச் செல்லவும்.">Carry glucose monitoring equipment and spare supplies.</span></label>
+        <label><input type="checkbox"> <span data-en="Carry fast-acting carbohydrate for treating lows, as instructed by your care team." data-ta="குறைந்த குளுக்கோஸுக்காக மருத்துவக் குழு அறிவுறுத்திய விரைவாகச் செயல்படும் கார்போஹைட்ரேட்டை எடுத்துச் செல்லவும்.">Carry fast-acting carbohydrate for treating lows, as instructed by your care team.</span></label>
+        <label><input type="checkbox"> <span data-en="Carry emergency contacts and your diabetes medical information." data-ta="அவசரத் தொடர்பு எண்களையும் நீரிழிவு மருத்துவத் தகவல்களையும் எடுத்துச் செல்லவும்.">Carry emergency contacts and your diabetes medical information.</span></label>
+        <label><input type="checkbox"> <span data-en="Plan safe insulin storage for the journey." data-ta="பயணத்தில் இன்சுலினைப் பாதுகாப்பாகச் சேமிக்கத் திட்டமிடவும்.">Plan safe insulin storage for the journey.</span></label>
+        <label><input type="checkbox"> <span data-en="Tell a trusted travel companion how to get help." data-ta="உதவி எப்படிப் பெறுவது என்பதை நம்பகமான பயணத் துணையிடம் தெரிவிக்கவும்.">Tell a trusted travel companion how to get help.</span></label>
+      </div>
+    </section>
+
+    <section id="emergency">
+      <h2 data-en="🚨 Emergency awareness" data-ta="🚨 அவசரநிலை விழிப்புணர்வு">🚨 Emergency awareness</h2>
+      <div class="card">
+        <h3 data-en="Possible low blood glucose" data-ta="குறைந்த குளுக்கோஸின் அறிகுறிகள்">Possible low blood glucose</h3>
+        <p data-en="Follow your personal hypoglycaemia plan. If the person is unconscious, having a seizure, or unable to swallow safely, do not give food or drink by mouth. Get emergency medical help immediately."
+           data-ta="உங்களுக்கான குறைந்த குளுக்கோஸ் சிகிச்சைத் திட்டத்தைப் பின்பற்றவும். ஒருவர் மயக்கத்தில் இருந்தாலோ, வலிப்பு ஏற்பட்டாலோ, பாதுகாப்பாக விழுங்க முடியாவிட்டாலோ வாய்வழியாக உணவு அல்லது பானம் கொடுக்க வேண்டாம். உடனடியாக அவசர மருத்துவ உதவி பெறவும்.">
+          Follow your personal hypoglycaemia plan. If the person is unconscious, having a seizure, or unable to swallow safely, do not give food or drink by mouth. Get emergency medical help immediately.
+        </p>
+
+        <h3 data-en="Possible diabetic ketoacidosis (DKA)" data-ta="நீரிழிவு கீட்டோஅசிடோசிஸ் (DKA) அறிகுறிகள்">Possible diabetic ketoacidosis (DKA)</h3>
+        <p data-en="Vomiting, abdominal pain, deep or difficult breathing, unusual drowsiness, or confusion can be warning signs. Seek urgent medical care."
+           data-ta="வாந்தி, வயிற்றுவலி, ஆழமான அல்லது சிரமமான சுவாசம், வழக்கத்திற்கு மாறான தூக்கம் அல்லது குழப்பம் எச்சரிக்கை அறிகுறிகளாக இருக்கலாம். உடனடியாக மருத்துவ உதவி பெறவும்.">
+          Vomiting, abdominal pain, deep or difficult breathing, unusual drowsiness, or confusion can be warning signs. Seek urgent medical care.
+        </p>
+
+        <div class="warning" data-en="Never use this website to decide or change insulin doses. Follow your clinician's instructions." data-ta="இன்சுலின் அளவை முடிவு செய்யவோ மாற்றவோ இந்த இணையதளத்தைப் பயன்படுத்த வேண்டாம். மருத்துவரின் அறிவுறுத்தல்களைப் பின்பற்றவும்.">
+          Never use this website to decide or change insulin doses. Follow your clinician's instructions.
+        </div>
+      </div>
+    </section>
+
+    <section id="quiz">
+      <h2 data-en="🧠 Quick knowledge quiz" data-ta="🧠 சிறிய அறிவுத் தேர்வு">🧠 Quick knowledge quiz</h2>
+      <div class="card">
+        <p data-en="Which hormone is essential for people with Type 1 diabetes?" data-ta="வகை 1 நீரிழிவு உள்ளவர்களுக்கு எந்த ஹார்மோன் அவசியம்?">
+          Which hormone is essential for people with Type 1 diabetes?
+        </p>
+        <label><input type="radio" name="quiz" value="a"> Adrenaline</label>
+        <label><input type="radio" name="quiz" value="b"> Insulin</label>
+        <label><input type="radio" name="quiz" value="c"> Melatonin</label>
+        <br>
+        <button class="primary" onclick="checkQuiz()" data-en="Check answer" data-ta="பதிலைச் சரிபார்">Check answer</button>
+        <p id="quizResult" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section id="mantra">
+      <h2 data-en="💙 A simple daily reminder" data-ta="💙 தினசரி நினைவூட்டல்">💙 A simple daily reminder</h2>
+      <div class="card">
+        <h3 data-en="The 4–3–2–1–0 reminder" data-ta="4–3–2–1–0 நினைவூட்டல்">The 4–3–2–1–0 reminder</h3>
+        <p data-en="Use this as a personal encouragement routine, not a medical rule. Choose habits that fit your own care plan."
+           data-ta="இதை ஊக்கமளிக்கும் தனிப்பட்ட பழக்கமாக மட்டும் பயன்படுத்தவும்; மருத்துவ விதியாக அல்ல. உங்கள் சிகிச்சைத் திட்டத்திற்குப் பொருந்தும் பழக்கங்களைத் தேர்ந்தெடுக்கவும்.">
+          Use this as a personal encouragement routine, not a medical rule. Choose habits that fit your own care plan.
+        </p>
+        <ul>
+          <li data-en="4 — Take four moments to pause and check in with yourself." data-ta="4 — உன் நிலையை கவனிக்க நான்கு முறை சிறிது நேரம் ஒதுக்கு.">4 — Take four moments to pause and check in with yourself.</li>
+          <li data-en="3 — Remember three people or things that support you." data-ta="3 — உனக்கு ஆதரவாக இருக்கும் மூன்று நபர்கள் அல்லது விஷயங்களை நினை.">3 — Remember three people or things that support you.</li>
+          <li data-en="2 — Name two things you learned today." data-ta="2 — இன்று கற்ற இரண்டு விஷயங்களைச் சொல்.">2 — Name two things you learned today.</li>
+          <li data-en="1 — Choose one small positive action." data-ta="1 — ஒரு சிறிய நல்ல செயலைத் தேர்ந்தெடு.">1 — Choose one small positive action.</li>
+          <li data-en="0 — Aim for zero shame: T1D is not your fault." data-ta="0 — குற்ற உணர்வு வேண்டாம்: T1D உன் தவறு அல்ல.">0 — Aim for zero shame: T1D is not your fault.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p><strong>T1D Buddy 💙</strong></p>
+    <p data-en="Educational support only. Not a substitute for professional medical advice." data-ta="கல்வி மற்றும் ஆதரவுக்காக மட்டுமே. இது மருத்துவ ஆலோசனைக்கு மாற்றாகாது.">
+      Educational support only. Not a substitute for professional medical advice.
+    </p>
+    <p>© <span id="year"></span> T1D Buddy</p>
+  </footer>
+
+  <script>
+    let language = "en";
+    let records = [];
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    function setLanguage(lang) {
+      language = lang;
+      document.documentElement.lang = lang;
+
+      document.querySelectorAll("[data-en][data-ta]").forEach(element => {
+        element.textContent = element.dataset[lang];
+      });
+
+      document.querySelectorAll("option").forEach(option => {
+        if (!option.dataset.original) {
+          option.dataset.original = option.textContent;
+        }
+      });
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle("light");
+    }
+
+    function addRecord() {
+      const glucose = document.getElementById("glucose").value;
+      const date = document.getElementById("recordDate").value;
+      const unit = document.getElementById("unit").value;
+      const time = document.getElementById("time").value;
+      const insulin = document.getElementById("insulin").value.trim();
+      const notes = document.getElementById("notes").value.trim();
+
+      if (!date || glucose === "" || Number(glucose) < 0) {
+        alert(language === "en"
+          ? "Please enter a valid date and glucose reading."
+          : "சரியான தேதியையும் குளுக்கோஸ் அளவையும் உள்ளிடவும்.");
+        return;
+      }
+
+      records.push({ date, glucose, unit, time, insulin, notes });
+      renderReport();
+
+      document.getElementById("glucose").value = "";
+      document.getElementById("insulin").value = "";
+      document.getElementById("notes").value = "";
+    }
+
+    function renderReport() {
+      const report = document.getElementById("report");
+
+      if (!records.length) {
+        report.textContent = language === "en"
+          ? "Your report will appear here."
+          : "உங்கள் அறிக்கை இங்கே தோன்றும்.";
+        return;
+      }
+
+      report.textContent = records.map((r, i) => {
+        const heading = language === "en" ? "Record" : "பதிவு";
+        const dateLabel = language === "en" ? "Date" : "தேதி";
+        const glucoseLabel = language === "en" ? "Glucose" : "குளுக்கோஸ்";
+        const timeLabel = language === "en" ? "Context" : "நேரம்";
+        const insulinLabel = language === "en" ? "Insulin information" : "இன்சுலின் தகவல்";
+        const notesLabel = language === "en" ? "Notes" : "குறிப்புகள்";
+
+        return `${heading} ${i + 1}\n${dateLabel}: ${r.date}\n${glucoseLabel}: ${r.glucose} ${r.unit}\n${timeLabel}: ${r.time}\n${insulinLabel}: ${r.insulin || "-"}\n${notesLabel}: ${r.notes || "-"}`;
+      }).join("\n\n--------------------\n\n");
+    }
+
+    function clearRecords() {
+      if (!confirm(language === "en" ? "Clear all records?" : "எல்லாப் பதிவுகளையும் அழிக்கவா?")) return;
+      records = [];
+      renderReport();
+    }
+
+    async function copyReport() {
+      if (!records.length) {
+        alert(language === "en" ? "There are no records to copy." : "நகலெடுக்கப் பதிவுகள் இல்லை.");
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(
+          records.map(r => `${r.date} | ${r.glucose} ${r.unit} | ${r.time} | Insulin: ${r.insulin || "-"} | ${r.notes || "-"}`).join("\n")
+        );
+        alert(language === "en" ? "Report copied." : "அறிக்கை நகலெடுக்கப்பட்டது.");
+      } catch {
+        alert(language === "en"
+          ? "Copying is unavailable in this browser. You can select and copy the report text manually."
+          : "இந்த உலாவியில் நகலெடுக்க முடியவில்லை. அறிக்கை உரையைத் தேர்ந்தெடுத்து கைமுறையாக நகலெடுக்கலாம்.");
+      }
+    }
+
+    function checkQuiz() {
+      const answer = document.querySelector('input[name="quiz"]:checked');
+      const result = document.getElementById("quizResult");
+
+      if (!answer) {
+        result.textContent = language === "en" ? "Choose an answer first." : "முதலில் ஒரு பதிலைத் தேர்ந்தெடுக்கவும்.";
+        return;
+      }
+
+      result.textContent = answer.value === "b"
+        ? (language === "en" ? "Correct! Insulin is essential in Type 1 diabetes." : "சரி! வகை 1 நீரிழிவில் இன்சுலின் அவசியம்.")
+        : (language === "en" ? "Not quite. The correct answer is insulin." : "சரியான பதில் இன்சுலின்.");
+    }
+
+    document.getElementById("recordDate").value =
+      new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString().slice(0, 10);
+
+    renderReport();
+  </script>
+</body>
+</html>
